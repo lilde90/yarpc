@@ -1,3 +1,3 @@
 # yarpc
 yarpc(Yet Another rpc framework) aims at providing a simple rpc framework based on react network
-programming model, including a epoll+thread pool network framework and protobuf 
+programming model, including a C/C++ non-blocking network library and protobuf based rpc framework
