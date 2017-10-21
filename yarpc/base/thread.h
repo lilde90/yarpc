@@ -5,5 +5,9 @@
 #ifndef _YARPC_BASE_THREAD_H_
 #define _YARPC_BASE_THREAD_H_
 
+class Thread {
+  Thread();
+};
+
 
 #endif // _YACRPC_BASE_THREAD_H_

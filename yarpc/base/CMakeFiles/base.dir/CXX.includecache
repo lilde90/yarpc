@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/lilde90/github/yarpc/yarpc/base/thread.cpp
+thread.h
+/Users/lilde90/github/yarpc/yarpc/base/thread.h
+
+/Users/lilde90/github/yarpc/yarpc/base/thread.h
+
