@@ -1,3 +1,0 @@
-/Users/lilde90/github/yarpc/yarpc/base/CMakeFiles/edit_cache.dir
-/Users/lilde90/github/yarpc/yarpc/base/CMakeFiles/rebuild_cache.dir
-/Users/lilde90/github/yarpc/yarpc/base/CMakeFiles/base.dir
