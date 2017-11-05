@@ -15,6 +15,7 @@ public:
   RWLock() {
     pthread_rwlock_init(&_lock, NULL);
   }
+
   ~RWLock() {
     pthread_rwlock_destroy(&_lock);
   }
