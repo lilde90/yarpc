@@ -5,7 +5,15 @@
 #ifndef _YARPC_BASE_THREAD_H_
 #define _YARPC_BASE_THREAD_H_
 
+//#include <yarpc/base/condition.h>
+#include <yarpc/base/mutex_lock.h>
+#include <yarpc/base/rw_lock.h>
+#include <yarpc/base/scoped_lock.h>
+//#include <yarpc/base/spin_lock.h>
+#include <yarpc/base/condition.h>
+
 class Thread {
+public:
   Thread();
 };
 

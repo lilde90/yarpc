@@ -9,10 +9,13 @@
 
 namespace yarpc {
 namespace base {
+
+class Condition;
+
 class MutexLock {
 public:
   MutexLock() {
-    pthread_mutex_init(&lock, NULL);
+    pthread_mutex_init(&_lock, NULL);
   }
 
   ~MutexLock() {
@@ -24,14 +27,16 @@ public:
   }
 
   void unlock() {
-    pthred_mutex_unlock(&_lock);
+    pthread_mutex_unlock(&_lock);
   }
   pthread_mutex_t getMutex() {
     return _lock;
   }
 private:
+  friend class Condition;
   pthread_mutex_t _lock;
-}
+};
+
 } // namespace base
 } // namespace yarpc
 

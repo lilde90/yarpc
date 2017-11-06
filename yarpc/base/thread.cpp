@@ -2,7 +2,7 @@
 // Author: Pan Li (panli.me@gmail.com)
 //
 //
-#include "thread.h"
+#include <yarpc/base/thread.h>
 
 Thread::Thread() {
 }

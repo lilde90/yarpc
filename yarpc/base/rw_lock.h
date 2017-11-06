@@ -25,15 +25,15 @@ public:
   }
 
   void lock_shared() {
-    pthead_rwlock_rdlock(&_lock);
+    pthread_rwlock_rdlock(&_lock);
   }
 
   void unlock() {
-    pthead_rwlock_unlock(&_lock);
+    pthread_rwlock_unlock(&_lock);
   }
 
 private:
-  pthead_rwlock_t _lock;
+  pthread_rwlock_t _lock;
 };
 
 class ReadLock {

@@ -5,7 +5,7 @@
 #define _YARPC_YARPC_BASE_CONDITION_VARIABLE_H_
 
 #include <errno.h>
-#include "base/mutex_lock.h"
+#include <yarpc/base/mutex_lock.h>
 
 namespace yarpc {
 namespace base {
@@ -17,11 +17,11 @@ public:
   }
 
   ~Condition() {
-    pthread_cond_destroy(*_cond);
+    pthread_cond_destroy(&_cond);
   }
 
   void wait() {
-    pthread_cond_wait(&_cond, &_mutex.getMutex());
+    pthread_cond_wait(&_cond, &_mutex._lock);
   }
 
   void wait(unsigned long timeout_in_ms) {
@@ -39,7 +39,7 @@ private:
   MutexLock _mutex;
   pthread_cond_t _cond;
 
-}
+};
 } // namespace base
 } // namespace yarpc
 
