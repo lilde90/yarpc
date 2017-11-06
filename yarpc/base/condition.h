@@ -5,6 +5,8 @@
 #define _YARPC_YARPC_BASE_CONDITION_VARIABLE_H_
 
 #include <errno.h>
+#include <time.h>
+#include <sys/time.h>
 #include <yarpc/base/mutex_lock.h>
 
 namespace yarpc {
@@ -24,14 +26,14 @@ public:
     pthread_cond_wait(&_cond, &_mutex._lock);
   }
 
-  void wait(unsigned long timeout_in_ms) {
+  bool wait(unsigned long timeout_in_ms) {
     struct timespec ts;
     struct timeval tv;
     gettimeofday(&tv, NULL);
     unsigned long usec = tv.tv_usec + timeout_in_ms * 1000;
-    ts->tv_sec = tv.tv_sec + usec / 1000000;
-    ts->tv_nsec = (usec % 1000000) * 1000;
-    int error = pthread_cond_timedwait(&_cond, &mutex._lock, &ts);
+    ts.tv_sec = tv.tv_sec + usec / 1000000;
+    ts.tv_nsec = (usec % 1000000) * 1000;
+    int error = pthread_cond_timedwait(&_cond, &_mutex._lock, &ts);
     if (error == 0) {
       return true;
     } else if (error == ETIMEDOUT) {
