@@ -25,6 +25,20 @@ public:
   }
 
   void wait(unsigned long timeout_in_ms) {
+    struct timespec ts;
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    unsigned long usec = tv.tv_usec + timeout_in_ms * 1000;
+    ts->tv_sec = tv.tv_sec + usec / 1000000;
+    ts->tv_nsec = (usec % 1000000) * 1000;
+    int error = pthread_cond_timedwait(&_cond, &mutex._lock, &ts);
+    if (error == 0) {
+      return true;
+    } else if (error == ETIMEDOUT) {
+      return false;
+    } else {
+      return false;
+    }
   }
 
   void signal() {

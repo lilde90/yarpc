@@ -6,6 +6,7 @@
 #define _YARPC_YARPC_SCOPED_LOCK_H_
 namespace yarpc {
 namespace base {
+
 template <typename Type>
 class ScopedLock {
 public:
