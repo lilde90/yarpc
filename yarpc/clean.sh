@@ -15,4 +15,8 @@ rm -f ./base/cmake_install.cmake
 
 if [ -f Makefile ]; then
   make clean
+  cd base
+  if [ -f Makefile ]; then
+    make clean
+  fi
 fi

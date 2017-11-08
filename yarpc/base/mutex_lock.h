@@ -37,6 +37,20 @@ private:
   pthread_mutex_t _lock;
 };
 
+class MutexLockGuard {
+  public:
+    MutexLockGuard(MutexLock& mutex) : _mutex(mutex) {
+      _mutex.lock();
+    }
+
+    ~MutexLockGuard() {
+      _mutex.unlock();
+    }
+  private:
+    MutexLock& _mutex;
+
+};
+
 } // namespace base
 } // namespace yarpc
 

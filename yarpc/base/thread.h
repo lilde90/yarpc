@@ -11,6 +11,7 @@
 #include <yarpc/base/scoped_lock.h>
 //#include <yarpc/base/spin_lock.h>
 #include <yarpc/base/condition.h>
+#include <yarpc/base/blocking_queue.h>
 
 class Thread {
 public:
