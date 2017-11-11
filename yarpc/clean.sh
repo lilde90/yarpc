@@ -12,6 +12,7 @@ rm -f ./base/CMakeCache.txt
 rm -rf ./base/CMakeFiles
 rm -f ./base/Makefile
 rm -f ./base/cmake_install.cmake
+rm -rf ./base/*.a
 
 if [ -f Makefile ]; then
   make clean

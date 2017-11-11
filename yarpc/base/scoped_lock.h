@@ -4,6 +4,7 @@
 
 #ifndef _YARPC_YARPC_SCOPED_LOCK_H_
 #define _YARPC_YARPC_SCOPED_LOCK_H_
+
 namespace yarpc {
 namespace base {
 

@@ -16,6 +16,7 @@ namespace base {
 
 template<typename T>
 class BlockingQueue {
+
 public:
   BlockingQueue() : _mutex(), _notEmpty(_mutex), _queue() {
   }
@@ -31,6 +32,7 @@ public:
     while(_queue.empty()) {
       _notEmpty.wait();
     }
+
     T front(_queue.front());
     _queue.pop_front();
     return front;
