@@ -10,6 +10,7 @@
 #include <yarpc/base/scoped_lock.h>
 #include <yarpc/base/condition.h>
 #include <yarpc/base/blocking_queue.h>
+#include <yarpc/base/bounded_blocking_queue.h>
 
 class Thread {
 public:
