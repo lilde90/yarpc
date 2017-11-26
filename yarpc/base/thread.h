@@ -11,6 +11,7 @@
 #include <yarpc/base/condition.h>
 #include <yarpc/base/blocking_queue.h>
 #include <yarpc/base/bounded_blocking_queue.h>
+#include <yarpc/base/logging.h>
 #include <string>
 #include <pthread.h>
 
@@ -30,11 +31,11 @@ public:
   inline const std::string& name() const { return _name;}
 
 private:
+  bool _started;
+  bool _joined;
   ThreadFunc _func;
   pthread_t _pthread_id;
   std::string _name;
-  bool _started;
-  bool _joined;
 };
 
 struct ThreadData {
@@ -51,7 +52,6 @@ private:
 
 void* startTheadFunc(void* obj) {
   ThreadData* data = static_cast<ThreadData*>(obj);
-  //data->run();
   delete data;
   return NULL;
 }

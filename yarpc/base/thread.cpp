@@ -31,14 +31,20 @@ void Thread::start() {
   ThreadData* data = new ThreadData(_func, _name);
   if (pthread_create(&_pthread_id, NULL, &startTheadFunc, data) != 0) {
     _started = false;
+    LOG_FATAL("%s", "pthread_create failed");
   } else {
   }
 }
 
 int Thread::join() {
-  if (_started) {
+  if (!_started) {
+    LOG_FATAL("thread[%d] has not started", _pthread_id);
   }
-  assert(!_joined);
+
+  if (_joined) {
+    LOG_FATAL("thread[%d] has been joined", _pthread_id);
+  }
+
   _joined = true;
   return pthread_join(_pthread_id, NULL);
 }
