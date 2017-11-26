@@ -4,5 +4,45 @@
 //
 #include <yarpc/base/thread.h>
 
-Thread::Thread() {
+namespace yarpc {
+namespace base {
+
+Thread::Thread(const ThreadFunc& func,
+    const std::string& name) :
+  _started(false),
+  _joined(false),
+  _func(func),
+  _pthread_id(0),
+  _name(name) {
 }
+
+Thread::~Thread() {
+  if (_started && !_joined) {
+    pthread_detach(_pthread_id);
+  }
+}
+
+void Thread::start() {
+  if (_started) {
+    return;
+  }
+  
+  _started = true;
+  ThreadData* data = new ThreadData(_func, _name);
+  if (pthread_create(&_pthread_id, NULL, &startTheadFunc, data) != 0) {
+    _started = false;
+  } else {
+  }
+}
+
+int Thread::join() {
+  if (_started) {
+  }
+  assert(!_joined);
+  _joined = true;
+  return pthread_join(_pthread_id, NULL);
+}
+
+
+} // namespace base
+} // namespace yarpc
