@@ -45,13 +45,17 @@ public:
       const std::string& name) :
     _func(func),
     _name(name) {}
+  void run() {
+    _func();
+  }
 private:
   ThreadFunc _func;
   std::string _name;
 };
 
-void* startTheadFunc(void* obj) {
+void* threadStartFunc(void* obj) {
   ThreadData* data = static_cast<ThreadData*>(obj);
+  data->run();
   delete data;
   return NULL;
 }

@@ -10,7 +10,6 @@
 #include <pthread.h>
 #include <yarpc/base/logging.h>
 
-
 namespace yarpc {
 namespace base {
 

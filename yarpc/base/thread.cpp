@@ -29,7 +29,7 @@ void Thread::start() {
   
   _started = true;
   ThreadData* data = new ThreadData(_func, _name);
-  if (pthread_create(&_pthread_id, NULL, &startTheadFunc, data) != 0) {
+  if (pthread_create(&_pthread_id, NULL, &threadStartFunc, data) != 0) {
     _started = false;
     LOG_FATAL("%s", "pthread_create failed");
   } else {

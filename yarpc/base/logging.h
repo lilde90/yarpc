@@ -4,6 +4,7 @@
 
 #ifndef _YARPC_YARPC_BASE_LOGGING_H_
 #define _YARPC_YARPC_BASE_LOGGING_H_
+
 #include <stdarg.h>
 
 namespace yarpc {
@@ -38,6 +39,18 @@ void log_handler(const char* filename, int line, LogLevel level, const char* fmt
 
 #define LOG_FATAL(fmt, arg...) \
   LOG(FATAL, fmt, arg);
+#define LOG_ERROR(fmt, arg...) \
+  LOG(ERROR, fmt, arg);
+#define LOG_WARNING(fmt, arg...) \
+  LOG(WARNING, fmt, arg);
+#define LOG_NOTICE(fmt, arg...) \
+  LOG(NOTICE, fmt, arg);
+#define LOG_INFO(fmt, arg...) \
+  LOG(INFO, fmt, arg);
+#define LOG_TRACE(fmt, arg...) \
+  LOG(INFO, fmt, arg);
+#define LOG_DEBUG(fmt, arg...) \
+  LOG(DEBUG, fmt, arg);
 
 } // namespace base
 } // namespace yarpc
