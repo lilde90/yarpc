@@ -2,7 +2,7 @@
 // Author: Pan Li (panli.me@gmail.com)
 //
 
-#ifndef _YARPC_BASE_THREAD_H_
+#ifndef _YARPC_BASE_THREAD_H_ 
 #define _YARPC_BASE_THREAD_H_
 
 #include <yarpc/base/mutex_lock.h>
@@ -62,4 +62,5 @@ void* threadStartFunc(void* obj) {
 
 } // namespace base
 } // namespace yarpc
+
 #endif // _YACRPC_BASE_THREAD_H_
