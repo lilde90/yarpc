@@ -14,13 +14,14 @@
 #include <yarpc/base/logging.h>
 #include <string>
 #include <pthread.h>
+#include <functional>
 
 namespace yarpc {
 namespace base {
 
 class Thread {
 public:
-  typedef void *(*ThreadFunc)(void);
+  typedef std::function<void()> ThreadFunc;
   explicit Thread(const ThreadFunc& func, const std::string& name = std::string());
   ~Thread();
 
