@@ -12,6 +12,7 @@
 #include <yarpc/base/blocking_queue.h>
 #include <yarpc/base/bounded_blocking_queue.h>
 #include <yarpc/base/logging.h>
+#include <yarpc/base/thread_local.h>
 #include <string>
 #include <pthread.h>
 #include <functional>
