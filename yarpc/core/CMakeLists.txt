@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
-project(yarpc C CXX)
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE "Release")
-endif()
+include_directories(../../)
+AUX_SOURCE_DIRECTORY(. core_src)
 set(CXX_FLAGS
  -g
  -DCHECK_PTHREAD_RETURN_VALUE
@@ -21,14 +19,7 @@ set(CXX_FLAGS
  -std=c++0x
  -rdynamic
  )
-if(CMAKE_BUILD_BITS EQUAL 32)
-  list(APPEND CXX_FLAGS "-m32")
-endif()
 string(REPLACE ";" " " CMAKE_CXX_FLAGS "${CXX_FLAGS}")
 set(CMAKE_CXX_COMPILER "g++")
-set(CMAKE_CXX_FLAGS_DEBUG "-O0")
-set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
-include_directories(./)
-add_subdirectory(base)
-add_subdirectory(core)
-
+add_library(yarpc_core ${core_src})
+target_link_libraries(yarpc_core pthread rt)
