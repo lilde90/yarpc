@@ -9,10 +9,9 @@
 
 namespace yarpc {
 namespace core {
-//__thread pid_t t_current_pid = getpid();
 using namespace yarpc::base;
-__thread EventLoop* t_thisThreadLoop = NULL;
 
+__thread EventLoop* t_thisThreadLoop = NULL;
 EventLoop::EventLoop()
   :_looping(false) {
 
@@ -34,6 +33,14 @@ EventLoop::~EventLoop() {
 
 EventLoop* EventLoop::getEventLoop() {
   return t_thisThreadLoop;
+}
+
+void EventLoop::loop() {
+  if (_looping) {
+    LOG_FATAL("event loop is thread %d is looping", _thread_id);
+  }
+  _looping = true;
+  _looping = false;
 }
 } // namespace core
 } // namespace yarpc
