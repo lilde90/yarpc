@@ -9,6 +9,7 @@
 
 namespace yarpc {
 namespace core {
+
 class Channel {
 public:
   typedef std::function<void()> EventCallback;
