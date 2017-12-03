@@ -12,6 +12,9 @@ namespace core {
 class Channel {
 public:
   typedef std::function<void()> EventCallback;
+
+  Channel(EventLoop* loop, int fd);
+
   int fd() {
     return _fd;
   }
@@ -22,6 +25,19 @@ public:
     return _revents;
   }
 
+  void set_revents(int revents) {
+    _revents = revents;
+  }
+
+  bool isNoneEvent() const {
+    return _events == _k_none_event;
+  }
+  int index() {
+    return _index;
+  }
+  void set_index(int index) {
+    _index = index;
+  }
 
   void enableReading() {
     _events |= _k_read_event;
@@ -32,6 +48,8 @@ public:
   }
 
   void handleEvent();
+
+  void update();
 
   void setReadCallback(const EventCallback& cb) {
     _read_call_back = cb;
@@ -53,6 +71,7 @@ private:
   int _fd;
   int _events;
   int _revents;
+  int _index;
 
   EventCallback _read_call_back;
   EventCallback _write_call_back;

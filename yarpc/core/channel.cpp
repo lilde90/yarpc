@@ -34,5 +34,16 @@ void Channel::handleEvent() {
   }
 }
 
+Channel::Channel(EventLoop* loop, int fd) 
+  :_loop(loop),
+  _fd(fd),
+  _events(0),
+  _revents(0) {
+}
+
+void Channel::update() {
+  //_loop.updateChannel();
+}
+
 } // namespace core
 } // namespace yarpc
