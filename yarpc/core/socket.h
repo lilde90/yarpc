@@ -8,6 +8,10 @@
 namespace yarpc {
 namespace core {
 class Socket {
+public:
+  Socket(int fd) :
+    _fd(fd) {
+  }
 private:
   const int _fd;
 };
