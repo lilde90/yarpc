@@ -52,6 +52,7 @@ void listen(int sockfd) {
 int create(sa_family_t family) {
   int sockfd = ::socket(family, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_TCP);
   if (sockfd < 0) {
+    //LOG_FATAL("create socket failed");
   }
   return sockfd;
 }
@@ -66,7 +67,8 @@ int accept(int sockfd, struct sockaddr_in* addr) {
   flags |= FD_CLOEXEC;
   ret = ::fcntl(sockfd, F_SETFD, flags);
   if (ret < 0 || connfd < 0) {
-    //int savedErrno = errno;
+    int savedErrno = errno;
+    LOG_FATAL("fd %d accept error %d", connfd, savedErrno);
   }
   return connfd;
 }

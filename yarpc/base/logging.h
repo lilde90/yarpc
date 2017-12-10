@@ -34,7 +34,8 @@ void log_handler(const char* filename, int line, LogLevel level, const char* fmt
   yarpc::base::set_log_level(LOG_LEVEL_##level)
 
 #define LOG(level, fmt, arg...) \
-  yarpc::base::log_handler(__FILE__, __LINE__, yarpc::base::LOG_LEVEL_##level, fmt, ##arg) \
+  yarpc::base::log_handler( __FILE__, __LINE__, \
+      yarpc::base::LOG_LEVEL_##level, fmt, ##arg) \
 
 #define LOG_FATAL(fmt, arg...) \
   LOG(FATAL, fmt, arg);
