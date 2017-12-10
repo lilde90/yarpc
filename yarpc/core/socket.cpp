@@ -14,6 +14,10 @@ const struct sockaddr* sockaddr_cast(const struct sockaddr_in* addr) {
   return static_cast<const struct sockaddr*>(static_cast<const void*>(addr));
 }
 
+struct sockaddr* sockaddr_cast(struct sockaddr_in* addr) {
+  return static_cast<struct sockaddr*>(static_cast<void*>(addr));
+}
+
 int connect(int sockfd, const struct sockaddr* addr) {
   return ::connect(sockfd, addr, static_cast<socklen_t>(sizeof(struct sockaddr)));
 }
@@ -47,6 +51,28 @@ void listen(int sockfd) {
   if (ret < 0) {
     //LOG_FATAL("%s", "list failed");
   }
+}
+
+int create(sa_family_t family) {
+  int sockfd = ::socket(family, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_TCP);
+  if (sockfd < 0) {
+  }
+  return sockfd;
+}
+
+int accept(int sockfd, struct sockaddr_in* addr) {
+  socklen_t addrlen = static_cast<socklen_t>(sizeof *addr);
+  int connfd = ::accept(sockfd, sockaddr_cast(addr), &addrlen);
+  int flags = ::fcntl(sockfd, F_GETFL, 0);
+  flags |= O_NONBLOCK;
+  int ret = ::fcntl(sockfd, F_SETFL, flags);
+  flags = ::fcntl(sockfd, F_GETFD, 0);
+  flags |= FD_CLOEXEC;
+  ret = ::fcntl(sockfd, F_SETFD, flags);
+  if (ret < 0 || connfd < 0) {
+    //int savedErrno = errno;
+  }
+  return connfd;
 }
 
 } // namespace core

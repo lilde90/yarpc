@@ -18,6 +18,7 @@ private:
 };
 
 const struct sockaddr* sockaddr_cast(const struct sockaddr_in*);
+struct sockaddr* sockaddr_cast(struct sockaddr_in*);
 int connect(int sockfd, const struct sockaddr* addr);
 ssize_t read(int sockfd, void *buf, size_t count);
 ssize_t readv(int sockfd, const struct iovec *iov, int iovcnt);
@@ -26,6 +27,8 @@ void close(int sockfd);
 void shutdown(int sockfd);
 void bind(int sockfd, const struct sockaddr* addr);
 void listen(int sockfd);
+int create(sa_family_t family);
+int accept(int sockfd, struct sockaddr_in* addr);
 
 
 } // namespace core
