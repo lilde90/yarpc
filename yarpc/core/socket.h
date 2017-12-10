@@ -5,6 +5,12 @@
 #define _YARPC_YARPC_CORE_SOCKET_H_
 
 #include <arpa/inet.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <linux/unistd.h>
 
 namespace yarpc {
 namespace core {

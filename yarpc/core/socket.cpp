@@ -3,10 +3,6 @@
 //
 #include <yarpc/core/socket.h>
 #include <yarpc/base/logging.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <sys/socket.h>
-#include <unistd.h>
 
 namespace yarpc {
 namespace core {
@@ -32,24 +28,24 @@ ssize_t write(int sockfd, const void* buf, size_t count) {
 }
 void close(int sockfd) {
   if (::close(sockfd) < 0) {
-    //LOG_ERROR("%s", "close failed");
+    LOG_ERROR("close fd:%d failed", sockfd);
   }
 }
 void shutdown(int sockfd) {
   if (::shutdown(sockfd, SHUT_WR) < 0) {
-    //LOG_ERROR("%s", "shutdown failed");
+    LOG_ERROR("shutdown fd:%d failed", sockfd);
   }
 }
 void bind(int sockfd, const struct sockaddr* addr) {
   int ret = ::bind(sockfd, addr, static_cast<socklen_t>(sizeof(struct sockaddr)));
   if (ret < 0) {
-    //LOG_FATAL("%s", "bind failed");
+    LOG_FATAL("bind fd:%d failed", sockfd);
   }
 }
 void listen(int sockfd) {
   int ret = ::listen(sockfd, SOMAXCONN);
   if (ret < 0) {
-    //LOG_FATAL("%s", "list failed");
+    LOG_FATAL("listen fd:%d failed", sockfd);
   }
 }
 
