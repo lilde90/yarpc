@@ -18,7 +18,9 @@ public:
   Address(uint16_t port);
   Address(std::string ip, uint16_t port);
 
-  Address(const struct sockaddr_in& addr);
+  Address(const struct sockaddr_in& addr)
+    :_addr(addr) {
+  }
 
 
   std::string toIp() const;
