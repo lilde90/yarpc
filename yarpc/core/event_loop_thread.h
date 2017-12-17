@@ -18,7 +18,7 @@ class EventLoop;
 class EventLoopThread {
 public:
   typedef std::function<void(EventLoop*)> ThreadInitCallback;
-  EventLoopThread(const ThreadInitCallback& cb, std::string& name);
+  EventLoopThread(const ThreadInitCallback& cb, const std::string& name);
   ~EventLoopThread();
   EventLoop* startLoop();
 
