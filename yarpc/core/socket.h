@@ -45,7 +45,7 @@ struct sockaddr_in getPeerAddr(int sockfd);
 
 void toIp(char* buf, size_t size, const struct sockaddr* addr);
 void toIpPort(char* buf, size_t size, const struct sockaddr* addr);
-void formIpPort(const char* ip, uint16_t port,
+void fromIpPort(const char* ip, uint16_t port,
     struct sockaddr_in* addr);
 
 } // namespace core

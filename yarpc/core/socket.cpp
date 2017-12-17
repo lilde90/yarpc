@@ -115,7 +115,13 @@ void toIpPort(char* buf, size_t size, const struct sockaddr* addr) {
   snprintf(buf + end, size - end, ":%u", port);
 }
 
-void formIpPort(const char* ip, uint16_t port, struct sockaddr_in* addr) {
+void fromIpPort(const char* ip, uint16_t port, struct sockaddr_in* addr) {
+  addr->sin_family = AF_INET;
+  addr->sin_port = be16toh(port);
+  if (inet_pton(AF_INET, ip, &addr->sin_addr) < 0) {
+    LOG_ERROR("%s", "fromIpPort failed");
+  }
+
 }
 
 } // namespace core

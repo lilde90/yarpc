@@ -39,6 +39,10 @@ public:
     _addr = addr;
   }
 
+  struct sockaddr_in& getSockAddrIn() {
+    return _addr;
+  }
+
   uint32_t ipNetEndian() const;
 
   uint16_t portNetEndian() const {
