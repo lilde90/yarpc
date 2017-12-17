@@ -13,7 +13,6 @@ namespace core {
 Address::Address(uint16_t port) {
   bzero(&_addr, sizeof(_addr));
   _addr.sin_family = AF_INET;
-  //in_addr_t ip = 
   _addr.sin_port = port;
 }
 

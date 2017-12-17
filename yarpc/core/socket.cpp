@@ -3,6 +3,9 @@
 //
 #include <yarpc/core/socket.h>
 #include <yarpc/base/logging.h>
+#include <strings.h>
+#include <string.h>
+#include <stdio.h>
 
 namespace yarpc {
 namespace core {
@@ -12,6 +15,10 @@ const struct sockaddr* sockaddr_cast(const struct sockaddr_in* addr) {
 
 struct sockaddr* sockaddr_cast(struct sockaddr_in* addr) {
   return static_cast<struct sockaddr*>(static_cast<void*>(addr));
+}
+
+const struct sockaddr_in* sockaddr_in_cast(const struct sockaddr* addr) {
+  return static_cast<const struct sockaddr_in*>(static_cast<const void*>(addr));
 }
 
 int connect(int sockfd, const struct sockaddr* addr) {
@@ -71,6 +78,44 @@ int accept(int sockfd, struct sockaddr_in* addr) {
     LOG_FATAL("fd %d accept error %d", connfd, savedErrno);
   }
   return connfd;
+}
+
+struct sockaddr_in getLocalAddr(int sockfd) {
+  struct sockaddr_in local_addr;
+  bzero(&local_addr, sizeof(local_addr));
+  socklen_t addr_len = static_cast<socklen_t>(sizeof(local_addr));
+  if (getsockname(sockfd, sockaddr_cast(&local_addr), &addr_len) < 0) {
+    LOG_ERROR("%s", "getLocalAddr failed");
+  }
+  return local_addr;
+}
+
+struct sockaddr_in getPeerAddr(int sockfd) {
+  struct sockaddr_in peer_addr;
+  bzero(&peer_addr, sizeof(peer_addr));
+  socklen_t peer_len = static_cast<socklen_t>(sizeof(peer_addr));
+  if (getpeername(sockfd, sockaddr_cast(&peer_addr), &peer_len) < 0) {
+    LOG_ERROR("%s", "getPeerAddr failed");
+  }
+  return peer_addr;
+}
+
+void toIp(char* buf, size_t size, const struct sockaddr* addr) {
+  if (addr->sa_family == AF_INET) {
+    const struct sockaddr_in* addr_in = sockaddr_in_cast(addr);
+    inet_ntop(AF_INET, &addr_in, buf, static_cast<socklen_t>(size));
+  }
+}
+
+void toIpPort(char* buf, size_t size, const struct sockaddr* addr) {
+  toIp(buf, size, addr);
+  size_t end = strlen(buf);
+  const struct sockaddr_in* addr_in = sockaddr_in_cast(addr);
+  uint16_t port = be16toh(addr_in->sin_port);
+  snprintf(buf + end, size - end, ":%u", port);
+}
+
+void formIpPort(const char* ip, uint16_t port, struct sockaddr_in* addr) {
 }
 
 } // namespace core

@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <sys/uio.h>
 #include <unistd.h>
 #include <linux/unistd.h>
 
@@ -25,10 +26,9 @@ private:
 
 const struct sockaddr* sockaddr_cast(const struct sockaddr_in*);
 struct sockaddr* sockaddr_cast(struct sockaddr_in*);
+const struct sockaddr_in* sockaddr_in_cast(const struct sockaddr*);
+
 int connect(int sockfd, const struct sockaddr* addr);
-ssize_t read(int sockfd, void *buf, size_t count);
-ssize_t readv(int sockfd, const struct iovec *iov, int iovcnt);
-ssize_t write(int sockfd, const void* buf, size_t count);
 void close(int sockfd);
 void shutdown(int sockfd);
 void bind(int sockfd, const struct sockaddr* addr);
@@ -36,6 +36,17 @@ void listen(int sockfd);
 int create(sa_family_t family);
 int accept(int sockfd, struct sockaddr_in* addr);
 
+ssize_t read(int sockfd, void *buf, size_t count);
+ssize_t readv(int sockfd, const struct iovec *iov, int iovcnt);
+ssize_t write(int sockfd, const void* buf, size_t count);
+
+struct sockaddr_in getLocalAddr(int sockfd);
+struct sockaddr_in getPeerAddr(int sockfd);
+
+void toIp(char* buf, size_t size, const struct sockaddr* addr);
+void toIpPort(char* buf, size_t size, const struct sockaddr* addr);
+void formIpPort(const char* ip, uint16_t port,
+    struct sockaddr_in* addr);
 
 } // namespace core
 } // namespace yarpc
