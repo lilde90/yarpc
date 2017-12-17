@@ -10,6 +10,10 @@
 namespace yarpc {
 namespace core {
 
+const int Channel::_k_none_event = 0;
+const int Channel::_k_read_event = POLLIN | POLLPRI;
+const int Channel::_k_write_event = POLLOUT;
+
 void Channel::handleEvent() {
   if (_revents &  POLLNVAL) {
     //LOG_WARNING("handleEvent event POLLNVAL");

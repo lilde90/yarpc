@@ -44,6 +44,14 @@ public:
     _events |= _k_read_event;
   }
 
+  void enableWriting() {
+    _events |= _k_write_event;
+  }
+
+  void disableAll() {
+    _events = _k_none_event;
+  }
+
   EventLoop* ownerLoop() {
     return _loop;
   }
@@ -60,7 +68,7 @@ public:
     _write_call_back = cb;
   }
 
-  void setErrorCallbak(const EventCallback& cb) {
+  void setErrorCallback(const EventCallback& cb) {
     _error_call_back = cb;
   }
 private:
