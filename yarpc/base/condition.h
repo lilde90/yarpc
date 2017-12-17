@@ -14,7 +14,8 @@ namespace base {
 
 class Condition {
 public:
-  Condition() {
+  Condition(MutexLock& mutex)
+    :_mutex(mutex) {
     pthread_cond_init(&_cond, NULL);
   }
 
