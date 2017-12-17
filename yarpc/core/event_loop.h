@@ -8,11 +8,17 @@
 #include <sys/syscall.h>
 #include <sys/types.h>
 #include <linux/unistd.h>
+#include <yarpc/core/channel.h>
+#include <yarpc/core/epoller.h>
+#include <vector>
 
 namespace yarpc {
 namespace core {
-class EventLoop {
 
+class Channel;
+class EPoller;
+
+class EventLoop {
 public:
   EventLoop();
 
@@ -22,7 +28,11 @@ public:
   static EventLoop* getEventLoop();
 private:
   bool _looping;
+  bool _quit;
+  EPoller* _epoller;
+  std::vector<Channel*> _active_channel;
   pid_t _thread_id;
+
 };
 } // namespace core
 } // namespace yarpc

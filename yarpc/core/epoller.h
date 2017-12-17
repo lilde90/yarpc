@@ -11,6 +11,9 @@
 #include <unordered_map>
 namespace yarpc {
 namespace core {
+class EventLoop;
+class Channel;
+
 class EPoller {
 public:
   EPoller(EventLoop* loop);

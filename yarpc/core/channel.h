@@ -10,6 +10,8 @@
 namespace yarpc {
 namespace core {
 
+class EventLoop;
+
 class Channel {
 public:
   typedef std::function<void()> EventCallback;
