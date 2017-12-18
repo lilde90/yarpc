@@ -15,11 +15,29 @@
 
 namespace yarpc {
 namespace core {
+
+class Address;
 class Socket {
 public:
   Socket(int fd) :
     _fd(fd) {
   }
+  ~Socket();
+  int fd() const {
+    return _fd;
+  }
+  
+  void bind(const Address& local_addr);
+  void listen();
+
+  int accept(Address& peer_addr);
+  
+  void shutdown();
+
+  void setTcpNoDelay(bool open);
+  void setReuseAddr(bool open);
+  void setReusePort(bool open);
+  void setKeepAlive(bool open);
 private:
   const int _fd;
 };

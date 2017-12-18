@@ -6,9 +6,75 @@
 #include <strings.h>
 #include <string.h>
 #include <stdio.h>
+#include <yarpc/core/address.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
 
 namespace yarpc {
 namespace core {
+
+Socket::~Socket() {
+  yarpc::core::close(_fd);
+}
+
+void Socket::bind(const Address& local_addr) {
+  yarpc::core::bind(_fd, local_addr.getSockAddr());
+}
+
+void Socket::listen() {
+  yarpc::core::listen(_fd);
+}
+
+int Socket::accept(Address& peer_addr) {
+  struct sockaddr_in addr;
+  bzero(&addr, sizeof(addr));
+  int connfd = yarpc::core::accept(_fd, &addr);
+  if (connfd >= 0) {
+    peer_addr.setSockAddr(addr);
+  }
+  return connfd;
+}
+
+void Socket::shutdown() {
+  yarpc::core::shutdown(_fd);
+}
+
+void Socket::setTcpNoDelay(bool open) {
+  int val = open ? 1 : 0;
+  int ret = setsockopt(_fd, IPPROTO_TCP, TCP_NODELAY,
+      &val, static_cast<socklen_t>(sizeof(val)));
+  if (ret < 0 && open) {
+    LOG_ERROR("%s", "set tcp no delay failed");
+  }
+}
+
+void Socket::setReuseAddr(bool open) {
+  int val = open ? 1 : 0;
+  int ret = setsockopt(_fd, SOL_SOCKET, SO_REUSEADDR,
+      &val, static_cast<socklen_t>(sizeof(val)));
+  if (ret < 0 && open) {
+    LOG_ERROR("%s", "set reuse addr failed");
+  }
+}
+
+void Socket::setReusePort(bool open) {
+  int val = open ? 1 : 0;
+  int ret = setsockopt(_fd, SOL_SOCKET, SO_REUSEADDR,
+      &val, static_cast<socklen_t>(sizeof(val)));
+  if (ret < 0 && open) {
+    LOG_ERROR("%s", "set reuse port failed");
+  }
+}
+
+void Socket::setKeepAlive(bool open) {
+  int val = open ? 1 : 0;
+  int ret = setsockopt(_fd, SOL_SOCKET, SO_KEEPALIVE,
+      &val, static_cast<socklen_t>(sizeof(val)));
+  if (ret < 0 && open) {
+    LOG_ERROR("%s", "set keep alive failed");
+  }
+}
+
 const struct sockaddr* sockaddr_cast(const struct sockaddr_in* addr) {
   return static_cast<const struct sockaddr*>(static_cast<const void*>(addr));
 }
