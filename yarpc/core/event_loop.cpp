@@ -54,5 +54,17 @@ void EventLoop::loop() {
   }
   _looping = false;
 }
+
+void EventLoop::updateChannel(Channel* channel) {
+  _epoller->updateChannel(channel);
+}
+
+void EventLoop::removeChannel(Channel* channel) {
+  _epoller->removeChannel(channel);
+}
+
+bool EventLoop::hasChannel(Channel* channel) {
+  return _epoller->hasChannel(channel);
+}
 } // namespace core
 } // namespace yarpc

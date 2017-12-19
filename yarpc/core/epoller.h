@@ -20,6 +20,7 @@ public:
   ~EPoller();
   void updateChannel(Channel* channel);
   void removeChannel(Channel* channel);
+  bool hasChannel(Channel* channel);
   void update(int op, Channel* channel);
   void poll(int timeout_ms, std::vector<Channel*>* active_channels);
 private:

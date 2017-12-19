@@ -4,6 +4,7 @@
 //
 #include <yarpc/base/logging.h>
 #include <yarpc/core/channel.h>
+#include <yarpc/core/event_loop.h>
 #include <sys/epoll.h>
 #include <poll.h>
 
@@ -46,7 +47,7 @@ Channel::Channel(EventLoop* loop, int fd)
 }
 
 void Channel::update() {
-  //_loop.updateChannel();
+  _loop->updateChannel(this);
 }
 
 } // namespace core

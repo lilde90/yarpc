@@ -91,5 +91,11 @@ void EPoller::update(int op, Channel* channel) {
   }
 }
 
+bool EPoller::hasChannel(Channel* channel) {
+  
+  auto it = _channels.find(channel->fd());
+  return it != _channels.end() && it->second == channel;
+}
+
 } // namespace core
 } // namespace yarpc

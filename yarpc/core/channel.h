@@ -4,7 +4,6 @@
 #ifndef _YARPC_YARPC_CORE_CHANNEL_H_
 #define _YARPC_YARPC_CORE_CHANNEL_H_
 
-#include <yarpc/core/event_loop.h>
 #include <functional>
 
 namespace yarpc {
@@ -44,14 +43,27 @@ public:
 
   void enableReading() {
     _events |= _k_read_event;
+    update();
+  }
+
+  void disableReading() {
+    _events &= ~_k_read_event;
+    update();
   }
 
   void enableWriting() {
     _events |= _k_write_event;
+    update();
+  }
+
+  void disableWriting() {
+    _events &= ~_k_write_event;
+    update();
   }
 
   void disableAll() {
     _events = _k_none_event;
+    update();
   }
 
   EventLoop* ownerLoop() {
@@ -59,8 +71,6 @@ public:
   }
 
   void handleEvent();
-
-  void update();
 
   void setReadCallback(const EventCallback& cb) {
     _read_call_back = cb;
@@ -72,6 +82,10 @@ public:
 
   void setErrorCallback(const EventCallback& cb) {
     _error_call_back = cb;
+  }
+
+  void setCloseCallback(const EventCallback& cb) {
+    _close_call_back = cb;
   }
 private:
   static const int _k_none_event;
@@ -87,6 +101,9 @@ private:
   EventCallback _read_call_back;
   EventCallback _write_call_back;
   EventCallback _error_call_back;
+  EventCallback _close_call_back;
+
+  void update();
 
 };
 } // namespace core

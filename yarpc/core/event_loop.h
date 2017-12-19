@@ -26,6 +26,10 @@ public:
   void loop();
   bool isInLoopThread() const;
   static EventLoop* getEventLoop();
+
+  void updateChannel(Channel* channel);
+  void removeChannel(Channel* channel);
+  bool hasChannel(Channel* channel);
 private:
   bool _looping;
   bool _quit;
