@@ -7,6 +7,8 @@
 
 #include <yarpc/core/channel.h>
 #include <yarpc/core/event_loop.h>
+#include <yarpc/core/socket.h>
+#include <yarpc/core/address.h>
 #include <functional>
 
 namespace yarpc {
@@ -14,9 +16,10 @@ namespace core {
 
 class Acceptor {
 public:
-  typedef std::function<void(int sock_fd/*, const InetAddress&*/)>
+  typedef std::function<void(int sock_fd, const Address&)>
     NewConnectionCallback;
-  Acceptor(EventLoop* loop/*, const InetAddress listen_addr*/);
+  Acceptor(EventLoop* loop, const Address listen_addr);
+  ~Acceptor();
   void setNewConnectionCallback(const NewConnectionCallback& cb) {
     _newConnectionCallback = cb;
   }
@@ -29,6 +32,7 @@ private:
 
 private:
   EventLoop* _loop;
+  Socket _accept_socket;
   Channel _accept_channel;
   NewConnectionCallback _newConnectionCallback;
   bool _listening;

@@ -15,6 +15,7 @@ namespace core {
 
 class Address {
 public:
+  Address();
   Address(uint16_t port);
   Address(std::string ip, uint16_t port);
 

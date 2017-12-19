@@ -25,12 +25,12 @@ void Socket::listen() {
   yarpc::core::listen(_fd);
 }
 
-int Socket::accept(Address& peer_addr) {
+int Socket::accept(Address* peer_addr) {
   struct sockaddr_in addr;
   bzero(&addr, sizeof(addr));
   int connfd = yarpc::core::accept(_fd, &addr);
   if (connfd >= 0) {
-    peer_addr.setSockAddr(addr);
+    peer_addr->setSockAddr(addr);
   }
   return connfd;
 }

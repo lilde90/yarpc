@@ -30,7 +30,7 @@ public:
   void bind(const Address& local_addr);
   void listen();
 
-  int accept(Address& peer_addr);
+  int accept(Address* peer_addr);
   
   void shutdown();
 

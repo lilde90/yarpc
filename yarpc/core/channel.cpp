@@ -17,7 +17,7 @@ const int Channel::_k_write_event = POLLOUT;
 
 void Channel::handleEvent() {
   if (_revents &  POLLNVAL) {
-    //LOG_WARNING("handleEvent event POLLNVAL");
+    LOG_WARNING("%s", "handleEvent event POLLNVAL");
   }
 
   if (_revents & (POLLERR | POLLNVAL)) {

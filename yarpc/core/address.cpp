@@ -11,6 +11,11 @@
 namespace yarpc {
 namespace core {
 
+Address::Address() {
+  bzero(&_addr, sizeof(_addr));
+  _addr.sin_family = AF_INET;
+  _addr.sin_port = 0;
+}
 Address::Address(uint16_t port) {
   bzero(&_addr, sizeof(_addr));
   _addr.sin_family = AF_INET;
