@@ -8,6 +8,7 @@
 #include <yarpc/core/channel.h>
 #include <yarpc/core/event_loop.h>
 #include <yarpc/core/socket.h>
+#include <yarpc/base/yarpc_defs.h>
 
 namespace yarpc {
 namespace core {
@@ -19,7 +20,54 @@ public:
       const Address& local_addr,
       const Address& peer_addr);
   ~TcpConnection();
+  EventLoop* getLoop() const {
+    return _loop;
+  }
+
+  const std::string& name() const {
+    return _name;
+  }
+  
+  const Address& localAddr() const {
+    return _local_addr;
+  }
+  
+  const Address& peerAddr() const {
+    return _peer_addr;
+  }
+
+  bool connected() const {
+    return _state == Connected;
+  }
+
+  bool disconnected() const {
+    return _state == Disconnected;
+  }
+
+  void send(const void* message, int size);
+  void send(std::string& message);
+
+  void startRead();
+  void stopRead();
+  bool isReading() const {
+    return _reading;
+  }
+
+  void setConnectionCallback(const ConnectionCallback& cb) {
+    _connection_callback = cb;
+  }
+
+  void setMessageCallback(const MessageCallback& cb) {
+    _message_callback = cb;
+  }
 private:
+  enum TcpConnectionState {
+    Disconnected,
+    Connecting,
+    Connected,
+    Disconnecting
+  };
+  TcpConnectionState _state;
   EventLoop* _loop;
   const std::string _name;
   bool _reading;
@@ -27,6 +75,18 @@ private:
   Channel* _channel;
   const Address _local_addr;
   const Address _peer_addr;
+  ConnectionCallback _connection_callback;
+  MessageCallback _message_callback;
+  
+  //
+  void handleRead();
+  void handleWrite();
+  void handleClose();
+  void handleError();
+
+  //void setTcpConnectionState(TcpConnectionState s) {
+  //  _state = s;
+  //}
 };
 } // namespace core
 } // namespace yarpc
