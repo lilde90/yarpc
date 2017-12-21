@@ -125,7 +125,7 @@ void listen(int sockfd) {
 int create(sa_family_t family) {
   int sockfd = ::socket(family, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_TCP);
   if (sockfd < 0) {
-    //LOG_FATAL("create socket failed");
+    LOG_FATAL("%s", "create socket failed");
   }
   return sockfd;
 }

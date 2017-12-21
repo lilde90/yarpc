@@ -3,9 +3,48 @@
 //
 #ifndef _YARPC_YARPC_CORE_TCP_CLIENT_H_
 #define _YARPC_YARPC_CORE_TCP_CLIENT_H_
+#include <yarpc/core/tcp_client.h>
+#include <yarpc/base/yarpc_defs.h>
+#include <yarpc/core/tcp_connection.h>
+#include <yarpc/core/connector.h>
+#include <yarpc/core/event_loop.h>
+
 namespace yarpc {
 namespace core {
 class TcpClient {
+public:
+  TcpClient(EventLoop* loop,
+    const Address& serverAddr,
+    const std::string& name);
+
+  ~TcpClient();
+
+  void connect();
+  void disconnect();
+  void stop();
+  EventLoop* getLoop() const {
+    return _loop;
+  }
+  const std::string& name() const {
+    return _name;
+  }
+
+  void setConnectionCallback(const ConnectionCallback& cb) {
+    _connection_callback = cb;
+  }
+  void setMessageCallback(const MessageCallback& cb) {
+    _message_callback = cb;
+  }
+private:
+  EventLoop* _loop;
+  Connector* _connector;
+  std::string _name;
+  ConnectionCallback _connection_callback;
+  MessageCallback _message_callback;
+  bool _connect;
+
+  TcpConnection* _connection;
+
 };
 } // namespace core
 } // namespace yarpc
