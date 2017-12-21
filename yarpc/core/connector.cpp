@@ -4,7 +4,6 @@
 #include <yarpc/core/connector.h>
 #include <yarpc/base/logging.h>
 #include <yarpc/core/socket.h>
-//#include <bind>
 
 namespace yarpc {
 namespace core {
