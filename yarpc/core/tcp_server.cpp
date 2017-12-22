@@ -5,6 +5,7 @@
 #include <yarpc/base/logging.h>
 namespace yarpc {
 namespace core {
+
 TcpServer::TcpServer(EventLoop* loop,
     const Address& listen_addr,
     const std::string& name):
@@ -12,13 +13,13 @@ TcpServer::TcpServer(EventLoop* loop,
   _name(name),
   _acceptor(new Acceptor(loop, listen_addr)),
   _thread_pool(new EventLoopThreadPool(loop, _name)),
-  _next_conn_id(1){
-    _acceptor->setNewConnectionCallback(std::bind(&TcpServer::newConnection, this, std::placeholders::_1, std::placeholders::_2));
+  _next_conn_id(1) {
+    _acceptor->setNewConnectionCallback(
+        std::bind(&TcpServer::newConnection, this, std::placeholders::_1, std::placeholders::_2));
   }
 
 TcpServer::~TcpServer() {
-  for (auto it = _connections.begin(); it !=
-      _connections.end(); ++it) {
+  for (auto it = _connections.begin(); it != _connections.end(); ++it) {
     TcpConnection* conn = it->second;
     if (conn != NULL) {
       delete conn;
