@@ -20,8 +20,8 @@ class EPoller;
 
 class EventLoop {
 public:
+  typedef std::function<void()> Func;
   EventLoop();
-
   ~EventLoop();
   void loop();
   bool isInLoopThread() const;
@@ -30,12 +30,16 @@ public:
   void updateChannel(Channel* channel);
   void removeChannel(Channel* channel);
   bool hasChannel(Channel* channel);
+
+  void runInLoop(const Func& cb);
+  void queueInLoop(const Func& cb);
 private:
   bool _looping;
   bool _quit;
   EPoller* _epoller;
   std::vector<Channel*> _active_channel;
   pid_t _thread_id;
+  std::vector<Func> _pendingFunctors;
 
 };
 } // namespace core

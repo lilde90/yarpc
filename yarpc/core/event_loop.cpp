@@ -66,5 +66,14 @@ void EventLoop::removeChannel(Channel* channel) {
 bool EventLoop::hasChannel(Channel* channel) {
   return _epoller->hasChannel(channel);
 }
+
+void EventLoop::runInLoop(const Func& cb) {
+  //queueInLoop(cb);
+}
+
+void EventLoop::queueInLoop(const Func& cb) {
+
+}
+
 } // namespace core
 } // namespace yarpc

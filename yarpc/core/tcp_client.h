@@ -3,8 +3,10 @@
 //
 #ifndef _YARPC_YARPC_CORE_TCP_CLIENT_H_
 #define _YARPC_YARPC_CORE_TCP_CLIENT_H_
-#include <yarpc/core/tcp_client.h>
+
+#include <yarpc/base/mutex_lock.h>
 #include <yarpc/base/yarpc_defs.h>
+#include <yarpc/core/tcp_client.h>
 #include <yarpc/core/tcp_connection.h>
 #include <yarpc/core/connector.h>
 #include <yarpc/core/event_loop.h>
@@ -35,6 +37,7 @@ public:
   void setMessageCallback(const MessageCallback& cb) {
     _message_callback = cb;
   }
+
 private:
   EventLoop* _loop;
   Connector* _connector;
@@ -44,6 +47,10 @@ private:
   bool _connect;
 
   TcpConnection* _connection;
+  mutable yarpc::base::MutexLock _mutex;
+
+private:
+  void newConnection(int sockfd);
 
 };
 } // namespace core
