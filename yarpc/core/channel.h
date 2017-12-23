@@ -17,6 +17,8 @@ public:
 
   Channel(EventLoop* loop, int fd);
 
+  ~Channel();
+
   int fd() {
     return _fd;
   }
@@ -87,13 +89,17 @@ public:
   void setCloseCallback(const EventCallback& cb) {
     _close_call_back = cb;
   }
+
+  void remove();
+
+  void update();
 private:
   static const int _k_none_event;
   static const int _k_read_event;
   static const int _k_write_event;
 
   EventLoop* _loop;
-  int _fd;
+  const int _fd;
   int _events;
   int _revents;
   int _index;
@@ -103,7 +109,6 @@ private:
   EventCallback _error_call_back;
   EventCallback _close_call_back;
 
-  void update();
 
 };
 } // namespace core

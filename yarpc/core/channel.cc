@@ -15,6 +15,20 @@ const int Channel::_k_none_event = 0;
 const int Channel::_k_read_event = POLLIN | POLLPRI;
 const int Channel::_k_write_event = POLLOUT;
 
+Channel::Channel(EventLoop* loop, int fd) 
+  :_loop(loop),
+  _fd(fd),
+  _events(0),
+  _revents(0),
+  _index(-1) {
+}
+
+Channel::~Channel() {
+  if (_loop->hasChannel(this)) {
+    LOG_FATAL("%s","channel still exist in loop's channel map");
+  }
+}
+
 void Channel::handleEvent() {
   if (_revents &  POLLNVAL) {
     LOG_WARNING("%s", "handleEvent event POLLNVAL");
@@ -39,15 +53,15 @@ void Channel::handleEvent() {
   }
 }
 
-Channel::Channel(EventLoop* loop, int fd) 
-  :_loop(loop),
-  _fd(fd),
-  _events(0),
-  _revents(0) {
-}
-
 void Channel::update() {
   _loop->updateChannel(this);
+}
+
+void Channel::remove() {
+  if (!isNoneEvent()) {
+    LOG_FATAL("%s", "rmove un-none event channel");
+  }
+  _loop->removeChannel(this);
 }
 
 } // namespace core

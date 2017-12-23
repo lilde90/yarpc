@@ -3,6 +3,7 @@
 //
 #include <yarpc/core/epoller.h>
 #include <string.h>
+#include <yarpc/base/logging.h>
 
 namespace yarpc {
 namespace core {
@@ -16,6 +17,7 @@ EPoller::EPoller(EventLoop* loop)
   _fd(epoll_create(_s_init_fd_num)),
   _events(_s_init_events_size) {
   if (_fd < 0) {
+    LOG_FATAL("%s", "epoll create failed");
   }
 }
 
@@ -29,6 +31,7 @@ void EPoller::poll(int timeout_ms,
       &*_events.begin(),
       static_cast<int>(_events.size()),
       timeout_ms);
+  int saved_errno = errno;
   // fill active channel
   if (events_num > 0) {
     fillActiveChannels(events_num, active_channels);
@@ -36,7 +39,10 @@ void EPoller::poll(int timeout_ms,
       _events.resize(events_num * 2);
     }
   } else if (events_num == 0) {
+    LOG_INFO("%s", "epoll wait nothing");
   } else {
+    LOG_ERROR("epoller poll error:%d", saved_errno);
+
   }
 }
 
@@ -56,12 +62,10 @@ void EPoller::updateChannel(Channel* channel) {
     if (index == kNew) {
       int fd = channel->fd();
       _channels[fd] = channel;
-    } else {
     }
     channel->set_index(kAdded);
     update(EPOLL_CTL_ADD, channel);
   } else {
-    //int fd = channel->fd();
     if(channel->isNoneEvent()) {
       update(EPOLL_CTL_DEL, channel);
       channel->set_index(kDeleted);
@@ -74,7 +78,11 @@ void EPoller::updateChannel(Channel* channel) {
 void EPoller::removeChannel(Channel* channel) {
   int fd = channel->fd();
   int index = channel->index();
-  /*size_t n = */_channels.erase(fd);
+  size_t n = _channels.erase(fd);
+  (void)n;
+  if (n != 1) {
+    LOG_FATAL("%s", "errase channel failed");
+  }
   if (index == kAdded) {
     update(EPOLL_CTL_DEL, channel);
   }
@@ -88,6 +96,7 @@ void EPoller::update(int op, Channel* channel) {
   event.data.ptr = channel;
   int fd = channel->fd();
   if (epoll_ctl(_fd, op, fd, &event) < 0) {
+    LOG_FATAL("epoll_ctl fd:%d failed", _fd);
   }
 }
 
