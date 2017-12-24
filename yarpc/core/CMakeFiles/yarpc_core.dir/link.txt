@@ -1,2 +1,0 @@
-/usr/bin/ar qc libyarpc_core.a  CMakeFiles/yarpc_core.dir/address.cc.o CMakeFiles/yarpc_core.dir/event_loop.cc.o CMakeFiles/yarpc_core.dir/acceptor.cc.o CMakeFiles/yarpc_core.dir/event_loop_thread.cc.o CMakeFiles/yarpc_core.dir/event_loop_thread_pool.cc.o CMakeFiles/yarpc_core.dir/socket.cc.o CMakeFiles/yarpc_core.dir/epoller.cc.o CMakeFiles/yarpc_core.dir/connector.cc.o CMakeFiles/yarpc_core.dir/tcp_server.cc.o CMakeFiles/yarpc_core.dir/tcp_client.cc.o CMakeFiles/yarpc_core.dir/tcp_connection.cc.o CMakeFiles/yarpc_core.dir/channel.cc.o
-/usr/bin/ranlib libyarpc_core.a

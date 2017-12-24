@@ -1,3 +1,0 @@
-/home/lilde90/code/github/yarpc/yarpc/core/CMakeFiles/rebuild_cache.dir
-/home/lilde90/code/github/yarpc/yarpc/core/CMakeFiles/edit_cache.dir
-/home/lilde90/code/github/yarpc/yarpc/core/CMakeFiles/yarpc_core.dir
