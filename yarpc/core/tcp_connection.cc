@@ -3,8 +3,18 @@
 //
 #include <yarpc/core/tcp_connection.h>
 #include <yarpc/base/logging.h>
+#include <string>
+#include <functional>
 namespace yarpc {
 namespace core {
+
+void defaultConnectionCallback(const TcpConnection* conn) {
+  // TODO:implement default connection call back
+}
+
+void defaultMessageCallback(const TcpConnection* conn) {
+  //TODO: implement default message call back
+}
 TcpConnection::TcpConnection(EventLoop* loop,
     const std::string& name,
     int sockfd,
@@ -39,21 +49,55 @@ TcpConnection::~TcpConnection() {
 }
 
 
-void TcpConnection::send(const void* data, int size) {
+void TcpConnection::send(const void* data, size_t size) {
+  //send(std::string(static_cast<const char*>(data)), size);
 }
 
-void TcpConnection::send(std::string& message) {
+void TcpConnection::send(const std::string& message) {
+  if (_state == Connected) {
+    sendInLoop(message);
+    //_loop->runInLoop(std::bind(&TcpConnection::sendInLoop, this, std::forward<std::string>(message)));
+  }
+}
+
+void TcpConnection::sendInLoop(const std::string& message) {
+  sendInLoop(static_cast<const void*>(message.data()), message.size());
+}
+
+void TcpConnection::sendInLoop(const void* data, size_t len) {
+  if (_state == Disconnected) {
+    LOG_WARNING("%s", "connection Disconnected, no need to send data");
+    return;
+  }
 }
 
 void TcpConnection::startRead() {
+  _loop->runInLoop(std::bind(&TcpConnection::startReadInLoop, this));
+}
+
+void TcpConnection::startReadInLoop() {
+  if (!_reading || !_channel->isReading()) {
+    _channel->enableReading();
+    _reading = true;
+  }
 }
 
 void TcpConnection::stopRead() {
+  _loop->runInLoop(std::bind(&TcpConnection::stopReadInLoop, this));
 }
 
+
+void TcpConnection::stopReadInLoop() {
+  if (_reading || _channel->isReading()) {
+    _channel->disableReading();
+    _reading = false;
+  }
+}
 void TcpConnection::handleRead() {
+  // read from buffer
 }
 void TcpConnection::handleWrite() {
+  // write to buffer;
 }
 void TcpConnection::handleClose() {
   _state = Disconnected;
@@ -61,6 +105,7 @@ void TcpConnection::handleClose() {
   
 }
 void TcpConnection::handleError() {
+  // just logging error
 }
 } // namespace core
 } // namespace yarpc

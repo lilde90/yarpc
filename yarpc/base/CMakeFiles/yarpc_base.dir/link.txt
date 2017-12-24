@@ -1,0 +1,2 @@
+/usr/bin/ar qc libyarpc_base.a  CMakeFiles/yarpc_base.dir/logging.cc.o CMakeFiles/yarpc_base.dir/thread.cc.o CMakeFiles/yarpc_base.dir/thread_pool.cpp.o
+/usr/bin/ranlib libyarpc_base.a

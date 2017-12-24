@@ -44,8 +44,8 @@ public:
     return _state == Disconnected;
   }
 
-  void send(const void* message, int size);
-  void send(std::string& message);
+  void send(const void* message, size_t size);
+  void send(const std::string& message);
 
   void startRead();
   void stopRead();
@@ -83,6 +83,13 @@ private:
   void handleWrite();
   void handleClose();
   void handleError();
+
+  void sendInLoop(const std::string& message);
+  void sendInLoop(const void* data, size_t size);
+
+  void startReadInLoop();
+  void stopReadInLoop();
+
 
   //void setTcpConnectionState(TcpConnectionState s) {
   //  _state = s;

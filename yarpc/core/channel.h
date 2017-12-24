@@ -68,6 +68,14 @@ public:
     update();
   }
 
+  bool isWriting() const {
+    return _events & _k_write_event;
+  }
+
+  bool isReading() const {
+    return _events & _k_read_event;
+  }
+
   EventLoop* ownerLoop() {
     return _loop;
   }
