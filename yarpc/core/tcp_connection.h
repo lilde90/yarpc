@@ -91,9 +91,9 @@ private:
   void stopReadInLoop();
 
 
-  //void setTcpConnectionState(TcpConnectionState s) {
-  //  _state = s;
-  //}
+  void setTcpConnectionState(TcpConnectionState s) {
+    _state = s;
+  }
 };
 } // namespace core
 } // namespace yarpc
