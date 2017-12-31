@@ -90,11 +90,11 @@ public:
 
 private:
   char * begin() {
-    return &*_buffer._begin();
+    return &*_buffer.begin();
   }
   
   const char* begin() const {
-    return &*_buffer._begin();
+    return &*_buffer.begin();
   }
   std::vector<char> _buffer;
   size_t _read_index;
