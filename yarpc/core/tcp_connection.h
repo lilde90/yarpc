@@ -9,6 +9,7 @@
 #include <yarpc/core/event_loop.h>
 #include <yarpc/core/socket.h>
 #include <yarpc/base/yarpc_defs.h>
+#include <yarpc/base/buffer.h>
 
 namespace yarpc {
 namespace core {
@@ -46,6 +47,7 @@ public:
 
   void send(const void* message, size_t size);
   void send(const std::string& message);
+  void send(yarpc::base::Buffer* message);
 
   void startRead();
   void stopRead();
@@ -59,6 +61,14 @@ public:
 
   void setMessageCallback(const MessageCallback& cb) {
     _message_callback = cb;
+  }
+
+  yarpc::base::Buffer* inputBuffer() {
+    return &_input_buffer;
+  }
+
+  yarpc::base::Buffer* outputBuffer() {
+    return &_output_buffer;
   }
 private:
   enum TcpConnectionState {
@@ -77,6 +87,8 @@ private:
   const Address _peer_addr;
   ConnectionCallback _connection_callback;
   MessageCallback _message_callback;
+  yarpc::base::Buffer _input_buffer;
+  yarpc::base::Buffer _output_buffer;
   
   //
   void handleRead();

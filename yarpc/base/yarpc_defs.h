@@ -16,6 +16,7 @@ typedef std::function<void(const TcpConnection*)> ConnectionCallback;
 typedef std::function<void(const TcpConnection*,
     const void* message,
     int size)> MessageCallback;
+
 } // namespace core
 } // namespace yarpc
 #endif // _YARPC_YARPC_CORE_YARPC_DEFS_H_

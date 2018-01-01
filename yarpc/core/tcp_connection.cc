@@ -10,9 +10,10 @@ namespace core {
 
 void defaultConnectionCallback(const TcpConnection* conn) {
   // TODO:implement default connection call back
+  LOG_TRACE("%s", "default connection callback");
 }
 
-void defaultMessageCallback(const TcpConnection* conn) {
+void defaultMessageCallback(const TcpConnection* conn, yarpc::base::Buffer* buf) {
   //TODO: implement default message call back
 }
 TcpConnection::TcpConnection(EventLoop* loop,
@@ -46,8 +47,7 @@ TcpConnection::~TcpConnection() {
     delete _channel;
     _channel = NULL;
   }
-}
-
+} 
 
 void TcpConnection::send(const void* data, size_t size) {
   //send(std::string(static_cast<const char*>(data)), size);
@@ -57,6 +57,17 @@ void TcpConnection::send(const std::string& message) {
   if (_state == Connected) {
     sendInLoop(message);
     //_loop->runInLoop(std::bind(&TcpConnection::sendInLoop, this, std::forward<std::string>(message)));
+  }
+}
+
+void TcpConnection::send(yarpc::base::Buffer* buf) {
+  if (_state == Connected) {
+    sendInLoop(buf->peek(), buf->readableSize());
+    buf->readAll();
+  } else {
+    //_loop->runInLoop(std::bind(&TcpConnection::sendInLoop,
+    //      this,
+    //      buf->readAllAsString());
   }
 }
 

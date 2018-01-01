@@ -14,7 +14,7 @@ namespace base {
 class Buffer {
 public:
   static const size_t S_INIT_SIZE = 1024;
-  Buffer(size_t init_size):
+  Buffer(size_t init_size = S_INIT_SIZE):
     _buffer(init_size),
     _read_index(0),
     _write_index(0) {
@@ -47,6 +47,11 @@ public:
       _read_index = 0;
       _write_index = 0;
     }
+  }
+
+  void readAll() {
+    _read_index = 0;
+    _write_index = 0;
   }
 
   //void readInt64() {
