@@ -62,7 +62,7 @@ bool resolve(std::string ip_address, Address* result) {
     return true;
   } else {
     if (ret) {
-      LOG_ERROR("%s", "resolve address failed");
+      LOG_ERROR("resolve address failed");
     }
     return false;
   }

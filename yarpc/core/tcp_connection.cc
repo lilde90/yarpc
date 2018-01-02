@@ -10,7 +10,7 @@ namespace core {
 
 void defaultConnectionCallback(const TcpConnection* conn) {
   // TODO:implement default connection call back
-  LOG_TRACE("%s", "default connection callback");
+  LOG_TRACE("default connection callback");
 }
 
 void defaultMessageCallback(const TcpConnection* conn, yarpc::base::Buffer* buf) {
@@ -77,7 +77,7 @@ void TcpConnection::sendInLoop(const std::string& message) {
 
 void TcpConnection::sendInLoop(const void* data, size_t len) {
   if (_state == Disconnected) {
-    LOG_WARNING("%s", "connection Disconnected, no need to send data");
+    LOG_WARNING("connection Disconnected, no need to send data");
     return;
   }
 }

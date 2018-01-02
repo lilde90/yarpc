@@ -44,7 +44,7 @@ void Socket::setTcpNoDelay(bool open) {
   int ret = setsockopt(_fd, IPPROTO_TCP, TCP_NODELAY,
       &val, static_cast<socklen_t>(sizeof(val)));
   if (ret < 0 && open) {
-    LOG_ERROR("%s", "set tcp no delay failed");
+    LOG_ERROR("set tcp no delay failed");
   }
 }
 
@@ -53,7 +53,7 @@ void Socket::setReuseAddr(bool open) {
   int ret = setsockopt(_fd, SOL_SOCKET, SO_REUSEADDR,
       &val, static_cast<socklen_t>(sizeof(val)));
   if (ret < 0 && open) {
-    LOG_ERROR("%s", "set reuse addr failed");
+    LOG_ERROR("set reuse addr failed");
   }
 }
 
@@ -62,7 +62,7 @@ void Socket::setReusePort(bool open) {
   int ret = setsockopt(_fd, SOL_SOCKET, SO_REUSEADDR,
       &val, static_cast<socklen_t>(sizeof(val)));
   if (ret < 0 && open) {
-    LOG_ERROR("%s", "set reuse port failed");
+    LOG_ERROR("set reuse port failed");
   }
 }
 
@@ -71,7 +71,7 @@ void Socket::setKeepAlive(bool open) {
   int ret = setsockopt(_fd, SOL_SOCKET, SO_KEEPALIVE,
       &val, static_cast<socklen_t>(sizeof(val)));
   if (ret < 0 && open) {
-    LOG_ERROR("%s", "set keep alive failed");
+    LOG_ERROR("set keep alive failed");
   }
 }
 
@@ -125,7 +125,7 @@ void listen(int sockfd) {
 int create(sa_family_t family) {
   int sockfd = ::socket(family, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_TCP);
   if (sockfd < 0) {
-    LOG_FATAL("%s", "create socket failed");
+    LOG_FATAL("create socket failed");
   }
   return sockfd;
 }
@@ -151,7 +151,7 @@ struct sockaddr_in getLocalAddr(int sockfd) {
   bzero(&local_addr, sizeof(local_addr));
   socklen_t addr_len = static_cast<socklen_t>(sizeof(local_addr));
   if (getsockname(sockfd, sockaddr_cast(&local_addr), &addr_len) < 0) {
-    LOG_ERROR("%s", "getLocalAddr failed");
+    LOG_ERROR("getLocalAddr failed");
   }
   return local_addr;
 }
@@ -161,7 +161,7 @@ struct sockaddr_in getPeerAddr(int sockfd) {
   bzero(&peer_addr, sizeof(peer_addr));
   socklen_t peer_len = static_cast<socklen_t>(sizeof(peer_addr));
   if (getpeername(sockfd, sockaddr_cast(&peer_addr), &peer_len) < 0) {
-    LOG_ERROR("%s", "getPeerAddr failed");
+    LOG_ERROR("getPeerAddr failed");
   }
   return peer_addr;
 }
@@ -185,7 +185,7 @@ void fromIpPort(const char* ip, uint16_t port, struct sockaddr_in* addr) {
   addr->sin_family = AF_INET;
   addr->sin_port = be16toh(port);
   if (inet_pton(AF_INET, ip, &addr->sin_addr) < 0) {
-    LOG_ERROR("%s", "fromIpPort failed");
+    LOG_ERROR("fromIpPort failed");
   }
 
 }

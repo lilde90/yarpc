@@ -113,7 +113,7 @@ void Connector::handleWrite() {
     }
   } else {
     if (_state != Disconnected) {
-      LOG_FATAL("%s", "connector state is not right");
+      LOG_FATAL("connector state is not right");
     }
   }
 }

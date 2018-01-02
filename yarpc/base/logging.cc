@@ -31,32 +31,32 @@ void null_log_handler(
 
 void default_log_handler(
     const char *filename, int line,
-    LogLevel level, const char* fmt, va_list ap) {
+    LogLevel level, const char* fmt, va_list ap ) {
   static const char* level_names[] = { "FATAL", "ERROR", "WARNING", "INFO", "TRACE", "DEBUG"};
-    char buf[1024];
-    vsnprintf(buf, 1024, fmt, ap);
-    struct timeval now_tv;
-    gettimeofday(&now_tv, NULL);
-    const time_t seconds = now_tv.tv_sec;
-    struct tm t;
-    localtime_r(&seconds, &t);
-    fprintf(stderr, "[yarpc] %s %04d/%02d/%02d-%02d:%02d:%02d.%06d %llx %s:%d] %s\n",
-            level_names[level],
-            t.tm_year + 1900,
-            t.tm_mon + 1,
-            t.tm_mday,
-            t.tm_hour,
-            t.tm_min,
-            t.tm_sec,
-            static_cast<int>(now_tv.tv_usec),
-            static_cast<long long unsigned int>(pthread_self()),
-            filename, line, buf);
-    fflush(stderr);
+  char buf[1024];
+  vsnprintf(buf, 1024, fmt, ap);
+  struct timeval now_tv;
+  gettimeofday(&now_tv, NULL);
+  const time_t seconds = now_tv.tv_sec;
+  struct tm t;
+  localtime_r(&seconds, &t);
+  fprintf(stderr, "[yarpc] %s %04d/%02d/%02d-%02d:%02d:%02d.%06d %llx %s:%d] %s\n",
+          level_names[level],
+          t.tm_year + 1900,
+          t.tm_mon + 1,
+          t.tm_mday,
+          t.tm_hour,
+          t.tm_min,
+          t.tm_sec,
+          static_cast<int>(now_tv.tv_usec),
+          static_cast<long long unsigned int>(pthread_self()),
+          filename, line, buf);
+   fflush(stderr);
 
-    if (level == LOG_LEVEL_FATAL)
-    {
-        abort();
-    }
+   if (level == LOG_LEVEL_FATAL)
+   {
+       abort();
+   }
   
 }
 

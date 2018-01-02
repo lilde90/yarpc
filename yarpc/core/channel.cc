@@ -25,13 +25,13 @@ Channel::Channel(EventLoop* loop, int fd)
 
 Channel::~Channel() {
   if (_loop->hasChannel(this)) {
-    LOG_FATAL("%s","channel still exist in loop's channel map");
+    LOG_FATAL("channel still exist in loop's channel map");
   }
 }
 
 void Channel::handleEvent() {
   if (_revents &  POLLNVAL) {
-    LOG_WARNING("%s", "handleEvent event POLLNVAL");
+    LOG_WARNING("handleEvent event POLLNVAL");
   }
 
   if (_revents & (POLLERR | POLLNVAL)) {
@@ -59,7 +59,7 @@ void Channel::update() {
 
 void Channel::remove() {
   if (!isNoneEvent()) {
-    LOG_FATAL("%s", "rmove un-none event channel");
+    LOG_FATAL("remove un-none event channel");
   }
   _loop->removeChannel(this);
 }

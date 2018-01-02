@@ -39,7 +39,7 @@ void EventLoopThreadPool::start(const ThreadInitCallback& cb) {
 
 EventLoop* EventLoopThreadPool::getNextLoop() {
   if (!_started) {
-    LOG_FATAL("%s", "event loop thread pool not started");
+    LOG_FATAL("event loop thread pool not started");
   }
   EventLoop* loop = _base_loop;
   if (!_loops.empty()) {
@@ -54,7 +54,7 @@ EventLoop* EventLoopThreadPool::getNextLoop() {
 
 EventLoop* EventLoopThreadPool::getHashLoop(size_t hash_code) {
   if (!_started) {
-    LOG_FATAL("%s", "event loop thread pool not started");
+    LOG_FATAL("event loop thread pool not started");
   }
   EventLoop* loop = _base_loop;
   if (!_loops.empty()) {
@@ -65,7 +65,7 @@ EventLoop* EventLoopThreadPool::getHashLoop(size_t hash_code) {
 
 std::vector<EventLoop*> EventLoopThreadPool::getAllLoops() {
   if (!_started) {
-    LOG_FATAL("%s", "event loop thread pool not started");
+    LOG_FATAL("event loop thread pool not started");
   }
   if (_loops.empty()) {
     return std::vector<EventLoop*>(1, _base_loop);

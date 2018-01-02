@@ -17,7 +17,7 @@ EPoller::EPoller(EventLoop* loop)
   _fd(epoll_create(_s_init_fd_num)),
   _events(_s_init_events_size) {
   if (_fd < 0) {
-    LOG_FATAL("%s", "epoll create failed");
+    LOG_FATAL("epoll create failed");
   }
 }
 
@@ -39,7 +39,7 @@ void EPoller::poll(int timeout_ms,
       _events.resize(events_num * 2);
     }
   } else if (events_num == 0) {
-    LOG_INFO("%s", "epoll wait nothing");
+    LOG_INFO("epoll wait nothing");
   } else {
     LOG_ERROR("epoller poll error:%d", saved_errno);
 
@@ -81,7 +81,7 @@ void EPoller::removeChannel(Channel* channel) {
   size_t n = _channels.erase(fd);
   (void)n;
   if (n != 1) {
-    LOG_FATAL("%s", "errase channel failed");
+    LOG_FATAL("erase channel failed");
   }
   if (index == kAdded) {
     update(EPOLL_CTL_DEL, channel);

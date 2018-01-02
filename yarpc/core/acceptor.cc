@@ -38,7 +38,7 @@ void Acceptor::handleRead() {
       yarpc::core::close(connfd);
     }
   } else {
-    LOG_ERROR("%s", "acceptor handle read failed");
+    LOG_ERROR("acceptor handle read failed");
   }
 
 }
