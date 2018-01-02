@@ -15,7 +15,6 @@ namespace base {
 
 static LogLevel s_log_level = LOG_LEVEL_ERROR;
 
-
 LogLevel get_log_level() {
   return s_log_level;
 }

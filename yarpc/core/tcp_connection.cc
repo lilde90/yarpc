@@ -105,10 +105,10 @@ void TcpConnection::stopReadInLoop() {
   }
 }
 void TcpConnection::handleRead() {
-  // read from buffer
+  // TODO:read from buffer
 }
 void TcpConnection::handleWrite() {
-  // write to buffer;
+  // TODO:write to buffer;
 }
 void TcpConnection::handleClose() {
   _state = Disconnected;
@@ -116,7 +116,7 @@ void TcpConnection::handleClose() {
   
 }
 void TcpConnection::handleError() {
-  // just logging error
+  LOG_ERROR("%s TcpConnection error", _name);
 }
 } // namespace core
 } // namespace yarpc

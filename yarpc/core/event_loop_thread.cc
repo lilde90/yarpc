@@ -8,7 +8,8 @@
 namespace yarpc {
 namespace core {
 
-EventLoopThread::EventLoopThread(const ThreadInitCallback& cb, const std::string& name)
+EventLoopThread::EventLoopThread(const ThreadInitCallback& cb, 
+    const std::string& name)
   :_loop(NULL),
   _exiting(false),
   _thread(std::bind(&EventLoopThread::threadFunc, this), name),
