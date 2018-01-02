@@ -106,9 +106,35 @@ void TcpConnection::stopReadInLoop() {
 }
 void TcpConnection::handleRead() {
   // TODO:read from buffer
+  int savedErr = 0;
+  ssize_t n = _input_buffer.readFd(_channel->fd(), &savedErr);
+  if (n > 0) {
+    _message_callback(this, &_input_buffer);
+  } else if (n == 0) {
+    handleClose();
+  } else {
+    errno = savedErr;
+    LOG_ERROR("TcpConnection handleRead error");
+    handleError();
+  }
 }
 void TcpConnection::handleWrite() {
   // TODO:write to buffer;
+  if (_channel->isWriting()) {
+    ssize_t n = yarpc::core::write(_channel->fd(),
+        _output_buffer.peek(),
+        _output_buffer.readableSize());
+    if (n > 0) {
+
+      if (_output_buffer.readableSize() == 0) {
+        _channel->disableWriting();
+      }
+    } else {
+      LOG_ERROR("TcpConnection write error");
+    }
+  } else {
+    LOG_TRACE("connection fd %d no more write", _channel->fd());
+  }
 }
 void TcpConnection::handleClose() {
   _state = Disconnected;

@@ -93,6 +93,8 @@ public:
     write(static_cast<const char*>(data), len);
   }
 
+  ssize_t readFd(int fd, int* savedErr);
+
 private:
   char * begin() {
     return &*_buffer.begin();
